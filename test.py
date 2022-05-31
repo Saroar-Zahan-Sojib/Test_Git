@@ -16,6 +16,9 @@ def generate_pair(input_list):
          empty_list.append(x)
    return empty_list
 
-print(generate_pair([1,2,3,4]))
+pair_list = generate_pair(['sojib','nahid','rumon','n'])
+
+for x in pair_list:
+   
 
 
