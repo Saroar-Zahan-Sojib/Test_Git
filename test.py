@@ -1,56 +1,21 @@
-#!/usr/bin/python
 
-import smtplib
-import base64
+def combs(a):
+   if len(a) == 0:
+      return [[]]
+   cs = []
+   for c in combs(a[1:]):
+      cs += [c, c+[a[0]]]
+   
+   return cs
+   
+def generate_pair(input_list):
+   temp_list = combs(input_list)
+   empty_list =[]
+   for x in temp_list:
+      if len(x)>=2:
+         empty_list.append(x)
+   return empty_list
 
-filename = "output.csv"
-
-# Read a file and encode it into base64 format
-fo = open(filename, "rb")
-filecontent = fo.read()
-encodedcontent = base64.b64encode(filecontent)  # base64
-
-sender = 'saroar.sojib@digigate360.com'
-reciever = 'saroarbdb@gmail.com'
-
-marker = "AUNIQUEMARKER"
-
-body ="""
-This is a test email to send an attachement.
-"""
-# Define the main headers.
-part1 = """From: From Person <me@fromdomain.net>
-To: To Person <saroarbdb@gmail.com>
-Subject: Sending Attachement
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary=%s
---%s
-""" % (marker, marker)
-
-# Define the message action
-part2 = """Content-Type: text/plain
-Content-Transfer-Encoding:8bit
-
-%s
---%s
-""" % (body,marker)
-
-# Define the attachment section
-part3 = """Content-Type: multipart/mixed; name=\"%s\"
-Content-Transfer-Encoding:base64
-Content-Disposition: attachment; filename=%s
-
-%s
---%s--
-""" %(filename, filename, encodedcontent, marker)
-message = part1 + part2 + part3
-
-try:
-   smtpObj = smtplib.SMTP('localhost')
-   smtpObj.sendmail(sender, reciever, message)
-   print("Successfully sent email")
-except Exception as e:
-   print(e)
-
+print(generate_pair([1,2,3,4]))
 
 
