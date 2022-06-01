@@ -1,24 +1,32 @@
+import pandas as pd
+data = pd.read_csv("SimilarityAndOtherInfo_500_Copy.csv",keep_default_na=False)
 
-def combs(a):
-   if len(a) == 0:
-      return [[]]
-   cs = []
-   for c in combs(a[1:]):
-      cs += [c, c+[a[0]]]
-   
-   return cs
-   
-def generate_pair(input_list):
-   temp_list = combs(input_list)
-   empty_list =[]
-   for x in temp_list:
-      if len(x)>=2:
-         empty_list.append(x)
-   return empty_list
+Reviewer_ID = data['Reviewer ID'].tolist()
+Name = data["Name"].tolist()
+Paper_ID = data["Paper ID"].tolist()
+Confidence = data["Confidence"].tolist()
+Cosine_Similarity = data["Cosine Similarity"].tolist()
+Jaccard_Similarity = data ["Jaccard Similarity"].tolist()
 
-pair_list = generate_pair(['sojib','nahid','rumon','n'])
+unique_confidence_value= list(set(Confidence))
+temp_dict = {}
+for i in range(0,len(unique_confidence_value)):
+   temp_dict[unique_confidence_value[i]] = Confidence.count(unique_confidence_value[i])
+print(temp_dict)
 
-for x in pair_list:
-   
+point_loop = []
+for i in range(1,6):
+   point_loop.append(i/10)
+
+print(point_loop)
+temp_dict2 = {}
+for x in point_loop:
+   temp_list = []
+   for y in Cosine_Similarity:
+      if str(x) in str(y):
+         temp_list.append(y)
+   temp_dict2[x]=temp_list
+
+print(temp_dict2)
 
 
